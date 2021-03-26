@@ -53,11 +53,23 @@ def print(students)
     counter += 1
   end
 end
+def print_by_cohort(students)
+  cohorts_list = students.map { |student| student[:cohort] }
+  puts "there are following cohorts"
+  puts cohorts_list.uniq
+  puts "Which cohort do you want to print?"
+  cohort_to_print = gets.chomp.to_sym
+  students.each do |student|
+    if student[:cohort] == cohort_to_print
+      puts "#{student[:name]}, Hobbies:#{student[:hobbies]}, Country of birth:#{student[:country_of_birth]}, Height:#{student[:height]}".center(115)
+    end
+  end
+end
 def print_footer(names)
   puts "Overall, we have #{names.count} great students".center(115, "`")
 end
 # nothing happens untill we call the methods
 students = input_Students
+print_by_cohort(students)
 print_header
-print(students)
 print_footer(students)
