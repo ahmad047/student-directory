@@ -10,6 +10,7 @@ end
 def print_menu
   puts "1. input the students"
   puts "2. Show the students"
+  puts "3. Save the list to students.csv"
   puts "9. exit"
 end
 
@@ -25,7 +26,9 @@ def process(menu_selection)
         input_Students
       when "2"
         show_students
-      when "9"
+      when "3"
+        save_students
+      when "9" # 9 because we'll be adding more items  
         exit
       else
         puts "I don't know what you meant, please try again"
@@ -75,6 +78,18 @@ def input_Students
     puts "name?"
     name = gets.chomp
   end
+end
+
+def save_students
+  #open the file for writing
+  file = File.open("students.csv", "w")
+  #iterate over the array of students
+  @students.each do |student|
+    student_data = [student[:name], student[:hobbies], student[:country_of_birth], student[:height], student[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
 end
 
 def print_header
