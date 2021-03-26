@@ -51,13 +51,18 @@ def print_header
   puts "-------------".center(115)
 end
 def print(students)
-  counter = 0
-  while counter < students.length do
-    puts "#{students[counter][:name]}, Hobbies:#{students[counter][:hobbies]}, Country of birth:#{students[counter][:country_of_birth]}, Height:#{students[counter][:height]} (#{students[counter][:cohort]} cohort)".center(115)
-    counter += 1
+  if !students.empty?
+    counter = 0
+    while counter < students.length do
+      puts "#{students[counter][:name]}, Hobbies:#{students[counter][:hobbies]}, Country of birth:#{students[counter][:country_of_birth]}, Height:#{students[counter][:height]} (#{students[counter][:cohort]} cohort)".center(115)
+      counter += 1
+    end
+  else
+    puts "there are no students".center(115)
   end
 end
 def print_by_cohort(students)
+  return if students.empty?
   cohorts_list = students.map { |student| student[:cohort] }
   puts "there are following cohorts"
   puts cohorts_list.uniq
@@ -70,9 +75,10 @@ def print_by_cohort(students)
   end
 end
 def print_footer(names)
-  if names.count == 1
+  if names.empty?
+  elsif names.count == 1
     puts "Overall, we have #{names.count} great student".center(115, "`")
-  else
+  elsif
     puts "Overall, we have #{names.count} great students".center(115, "`")
   end
 end
