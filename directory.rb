@@ -7,24 +7,24 @@ def input_Students
   'august', 'september', 'octobar', 'november', 'december']
   # get the details
   puts "name?"
-  name = gets.chomp
+  name = gets.gsub("\n", "")
   # while the name is not empty, repeat this code
   while !name.empty? do
     puts "hobbies?"
-    hobbies = gets.chomp
+    hobbies = gets.gsub("\n", "")
     puts "country of birth?"
-    country_of_birth = gets.chomp
+    country_of_birth = gets.gsub("\n", "")
     puts "height?"
-    height = gets.chomp
+    height = gets.gsub("\n", "")
     puts "cohort?"
-    cohort = gets.chomp
+    cohort = gets.gsub("\n", "")
     while !month.include?(cohort) do
       if cohort.empty?
         cohort = 'november'
         break
       end
       puts "invalid month! please enter month again"
-      cohort = gets.chomp
+      cohort = gets.gsub("\n", "")
     end
   # add the student hash to the array
     students << {
@@ -41,7 +41,7 @@ def input_Students
     end
     # get another name from the user
     puts "name?"
-    name = gets.chomp
+    name = gets.gsub("\n", "")
   end
   #return the array of students
   students
@@ -62,7 +62,7 @@ def print_by_cohort(students)
   puts "there are following cohorts"
   puts cohorts_list.uniq
   puts "Which cohort do you want to print?"
-  cohort_to_print = gets.chomp.to_sym
+  cohort_to_print = gets.gsub("\n", "").to_sym
   students.each do |student|
     if student[:cohort] == cohort_to_print
       puts "#{student[:name]}, Hobbies:#{student[:hobbies]}, Country of birth:#{student[:country_of_birth]}, Height:#{student[:height]}".center(115)
