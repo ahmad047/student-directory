@@ -34,7 +34,11 @@ def input_Students
       height: height,
       cohort: cohort.to_sym
     }
-    puts "Now we have #{students.count} students"
+    if students.count == 1 
+      puts "Now we have #{students.count} student"
+    else
+      puts "Now we have #{students.count} students"
+    end
     # get another name from the user
     puts "name?"
     name = gets.chomp
@@ -66,10 +70,15 @@ def print_by_cohort(students)
   end
 end
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students".center(115, "`")
+  if names.count == 1
+    puts "Overall, we have #{names.count} great student".center(115, "`")
+  else
+    puts "Overall, we have #{names.count} great students".center(115, "`")
+  end
 end
 # nothing happens untill we call the methods
 students = input_Students
-print_by_cohort(students)
 print_header
+print(students)
 print_footer(students)
+print_by_cohort(students)
