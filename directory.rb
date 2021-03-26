@@ -1,3 +1,28 @@
+def interactive_menu
+  # 1. print the menu and ask the user what to do
+  # 2. read the input and save it into a variable
+  # 3. do what the user has asked
+  # 4. repeat from step 1
+  students = []
+  loop do
+    puts "1. input the students"
+    puts "2. Show the students"
+    puts "9. exit"
+    menu_selection = gets.chomp
+    case menu_selection
+      when "1"
+        students = input_Students
+      when "2"
+        print_header
+        print(students)
+        print_footer(students)
+      when "9"
+        exit
+      else
+        puts "I don't know what you meant, please try again"
+    end
+  end
+end
 def input_Students
   puts "Please enter the names, hobbies, country of birth and height of the students"
   puts "To finish, just hit return twice"
@@ -82,9 +107,5 @@ def print_footer(names)
     puts "Overall, we have #{names.count} great students".center(115, "`")
   end
 end
-# nothing happens untill we call the methods
-students = input_Students
-print_header
-print(students)
-print_footer(students)
-print_by_cohort(students)
+
+interactive_menu
