@@ -10,8 +10,8 @@ end
 def print_menu
   puts "1. input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. load the list from students.csv"
+  puts "3. Save the list to a file"
+  puts "4. load the list from a file"
   puts "9. exit"
 end
 
@@ -24,7 +24,9 @@ def process(menu_selection)
     when "3"
       save_students
     when "4"
-      load_students
+      puts "please enter the filename you would like to load the students from?"
+      filename = gets.chomp
+      load_students(filename)
     when "9" # 9 because we'll be adding more items  
       exit
     else
@@ -98,9 +100,9 @@ def print_footer
 end
 
 def save_students
-  #open the file for writing
-  file = File.open("students.csv", "w")
-  #iterate over the array of students
+  puts "please specify a filename"
+  filename = gets.chomp
+  file = File.open(filename, "w")
   @students.each do |student|
     student_data = [student[:name], student[:hobbies], student[:country_of_birth], student[:height], student[:cohort]]
     csv_line = student_data.join(",")
@@ -111,7 +113,7 @@ def save_students
   puts "#{@students.count} students have been saved to students.csv" if @students.count > 1
 end
 
-def load_students(filename = "students.csv")
+def load_students(filename)
   file = File.open(filename, "r")
   students_loaded = 0
   file.readlines.each do |line|
