@@ -102,28 +102,28 @@ end
 def save_students
   puts "please specify a filename"
   filename = gets.chomp
-  file = File.open(filename, "w")
-  @students.each do |student|
-    student_data = [student[:name], student[:hobbies], student[:country_of_birth], student[:height], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  file = File.open(filename, "w") do |file|
+    @students.each do |student|
+      student_data = [student[:name], student[:hobbies], student[:country_of_birth], student[:height], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
-  file.close
   puts "#{@students.count} student has been saved to students.csv" if @students.count == 1
   puts "#{@students.count} students have been saved to students.csv" if @students.count > 1
 end
 
 def load_students(filename)
-  file = File.open(filename, "r")
-  students_loaded = 0
-  file.readlines.each do |line|
-    @name, @hobbies, @country_of_birth, @height, @cohort = line.chomp.split(",")
-    input_hash
-    students_loaded += 1
+  file = File.open(filename, "r") do |file|
+    @students_loaded = 0
+    file.readlines.each do |line|
+      @name, @hobbies, @country_of_birth, @height, @cohort = line.chomp.split(",")
+      input_hash
+      @students_loaded += 1
+    end
   end
-  file.close
-  puts "Loaded #{students_loaded} student from #{filename}." if @students.count == 1
-  puts "Loaded #{students_loaded} students from #{filename}." if @students.count > 1
+  puts "Loaded #{@students_loaded} student from #{filename}." if @students.count == 1
+  puts "Loaded #{@students_loaded} students from #{filename}." if @students.count > 1
 end
 
 def try_load_students
