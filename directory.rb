@@ -107,15 +107,21 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts "#{@students.count} student has been saved to students.csv" if @students.count == 1
+  puts "#{@students.count} students have been saved to students.csv" if @students.count > 1
 end
 
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
+  students_loaded = 0
   file.readlines.each do |line|
     @name, @hobbies, @country_of_birth, @height, @cohort = line.chomp.split(",")
     input_hash
+    students_loaded += 1
   end
   file.close
+  puts "Loaded #{students_loaded} student from #{filename}." if @students.count == 1
+  puts "Loaded #{students_loaded} students from #{filename}." if @students.count > 1
 end
 
 def try_load_students
@@ -123,7 +129,6 @@ def try_load_students
   filename = "students.csv" if filename.nil? # if no filename is given then default to students.csv
   if File.exists?(filename) # if it exists
     load_students(filename)
-     puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exist
     puts "Sorry, #{filename} doesn't exist."
     exit # quit the program
