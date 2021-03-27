@@ -45,33 +45,26 @@ def input_Students
   'august', 'september', 'octobar', 'november', 'december']
   # get the details
   puts "name?"
-  name = STDIN.gets.chomp
+  @name = STDIN.gets.chomp
   # while the name is not empty, repeat this code
-  while !name.empty? do
+  while !@name.empty? do
     puts "hobbies?"
-    hobbies = STDIN.gets.chomp
+    @hobbies = STDIN.gets.chomp
     puts "country of birth?"
-    country_of_birth = STDIN.gets.chomp
+    @country_of_birth = STDIN.gets.chomp
     puts "height?"
-    height = STDIN.gets.chomp
+    @height = STDIN.gets.chomp
     puts "cohort?"
-    cohort = STDIN.gets.chomp
-    while !month.include?(cohort) do
-      if cohort.empty?
-        cohort = 'november'
+    @cohort = STDIN.gets.chomp
+    while !month.include?(@cohort) do
+      if @cohort.empty?
+        @cohort = 'november'
         break
       end
       puts "invalid month! please enter month again"
-      cohort = STDIN.gets.chomp
+      @cohort = STDIN.gets.chomp
     end
-  # add the student hash to the array
-    @students << {
-      name: name,
-      hobbies: hobbies,
-      country_of_birth: country_of_birth,
-      height: height,
-      cohort: cohort.to_sym
-    }
+    input_hash
     if @students.count == 1 
       puts "Now we have #{@students.count} student"
     else
@@ -79,7 +72,7 @@ def input_Students
     end
     # get another name from the user
     puts "name?"
-    name = STDIN.gets.chomp
+    @name = STDIN.gets.chomp
   end
 end
 
@@ -98,8 +91,8 @@ end
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, hobbies, country_of_birth, height, cohort = line.chomp.split(",")
-    @students << {name: name, hobbies: hobbies, country_of_birth: country_of_birth, height: height, cohort: cohort.to_sym}
+    @name, @hobbies, @country_of_birth, @height, @cohort = line.chomp.split(",")
+    input_hash
   end
   file.close
 end
@@ -114,6 +107,10 @@ def try_load_students
     puts "Sorry, #{filename} doesn't exist."
     exit # quit the program
   end
+end
+
+def input_hash
+  @students << {name: @name, hobbies: @hobbies, country_of_birth: @country_of_birth, height: @height, cohort: @cohort.to_sym}
 end
 
 def print_header
