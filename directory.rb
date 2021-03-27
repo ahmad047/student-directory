@@ -3,7 +3,7 @@
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -45,24 +45,24 @@ def input_Students
   'august', 'september', 'octobar', 'november', 'december']
   # get the details
   puts "name?"
-  name = gets.chomp
+  name = STDIN.gets.chomp
   # while the name is not empty, repeat this code
   while !name.empty? do
     puts "hobbies?"
-    hobbies = gets.chomp
+    hobbies = STDIN.gets.chomp
     puts "country of birth?"
-    country_of_birth = gets.chomp
+    country_of_birth = STDIN.gets.chomp
     puts "height?"
-    height = gets.chomp
+    height = STDIN.gets.chomp
     puts "cohort?"
-    cohort = gets.chomp
+    cohort = STDIN.gets.chomp
     while !month.include?(cohort) do
       if cohort.empty?
         cohort = 'november'
         break
       end
       puts "invalid month! please enter month again"
-      cohort = gets.chomp
+      cohort = STDIN.gets.chomp
     end
   # add the student hash to the array
     @students << {
@@ -79,7 +79,7 @@ def input_Students
     end
     # get another name from the user
     puts "name?"
-    name = gets.chomp
+    name = STDIN.gets.chomp
   end
 end
 
@@ -95,13 +95,25 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name, hobbies, country_of_birth, height, cohort = line.chomp.split(",")
     @students << {name: name, hobbies: hobbies, country_of_birth: country_of_birth, height: height, cohort: cohort.to_sym}
   end
   file.close
+end
+
+def try_load_students
+  filename = ARGV.first# first argument from the command line
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exists?(filename) # if it exists
+    load_students(filename)
+     puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
+  end
 end
 
 def print_header
@@ -136,7 +148,7 @@ def print_by_cohort(students)
   puts "there are following cohorts"
   puts cohorts_list.uniq
   puts "Which cohort do you want to print?"
-  cohort_to_print = gets.chomp.to_sym
+  cohort_to_print = STDIN.gets.chomp.to_sym
   students.each do |student|
     if student[:cohort] == cohort_to_print
       puts "#{student[:name]}, Hobbies:#{student[:hobbies]}, Country of birth:#{student[:country_of_birth]}, Height:#{student[:height]}".center(115)
@@ -144,4 +156,5 @@ def print_by_cohort(students)
   end
 end
 
+try_load_students
 interactive_menu
