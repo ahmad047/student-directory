@@ -1,3 +1,4 @@
+require "csv"
 @students = []
 
 def interactive_menu
@@ -102,11 +103,9 @@ end
 def save_students
   puts "please specify a filename"
   filename = gets.chomp
-  file = File.open(filename, "w") do |file|
+  CSV.open("./#{filename}", "wb") do |line|
     @students.each do |student|
-      student_data = [student[:name], student[:hobbies], student[:country_of_birth], student[:height], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+      line << [student[:name], student[:hobbies], student[:country_of_birth], student[:height], student[:cohort]]
     end
   end
   puts "#{@students.count} student has been saved to students.csv" if @students.count == 1
@@ -114,14 +113,10 @@ def save_students
 end
 
 def load_students(filename)
-  file = File.open(filename, "r") do |file|
-    @students_loaded = 0
-    file.readlines.each do |line|
-      @name, @hobbies, @country_of_birth, @height, @cohort = line.chomp.split(",")
-      input_hash
-      @students_loaded += 1
-    end
-  end
+  CSV.foreach("./#{filename}") do |line|
+    @name, @hobbies, @country_of_birth, @height, @cohort = line
+    input_hash
+end
   puts "Loaded #{@students_loaded} student from #{filename}." if @students.count == 1
   puts "Loaded #{@students_loaded} students from #{filename}." if @students.count > 1
 end
